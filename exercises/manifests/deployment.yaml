@@ -2,16 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: nginx-alpine
-    tag: alpine
+    app: nginx-alpine	    
   name: nginx-alpine
   namespace: demo
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
-      tag: alpine
+     app: nginx-alpine
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,8 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
-        tag: alpine
+        app: nginx-alpine
     spec:
       containers:
       - image: nginx:alpine
