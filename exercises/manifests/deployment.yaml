@@ -3,13 +3,17 @@ kind: Deployment
 metadata:
   labels:
     app: nginx-alpine	    
-  name: nginx-alpine
+    app: nginx
+    app.kubernetes.io/instance: nginx-alpine
+    tag: alpine
   namespace: demo
 spec:
   replicas: 3
   selector:
     matchLabels:
-     app: nginx-alpine
+      app: nginx-alpine	      
+      app: nginx
+      tag: alpine
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,9 +22,16 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx-alpine
+        app: nginx-alpine	        
+        app: nginx
+        tag: alpine
     spec:
       containers:
       - image: nginx:alpine
         imagePullPolicy: IfNotPresent
+        name: nginx-alpine
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - image: 'nginx:alpine'
+          imagePullPolicy: IfNotPresent
         name: nginx-alpine
